@@ -16,6 +16,7 @@ data/processed/
 models/*.pkl
 models/*.joblib
 models/*.onnx
+models/model_metadata.json
 
 logs/
 *.log

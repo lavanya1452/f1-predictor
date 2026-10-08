@@ -10,6 +10,7 @@ from src.data.schemas import (
     QualifyingResult,
     Race,
     RaceResult,
+    Season,
 )
 
 __all__ = [
@@ -23,4 +24,5 @@ __all__ = [
     "QualifyingResult",
     "Race",
     "RaceResult",
+    "Season",
 ]

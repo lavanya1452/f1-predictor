@@ -21,10 +21,12 @@ class AppConfig(BaseModel):
     processed_data_dir: Path = Path("data/processed")
     model_dir: Path = Path("models")
     default_simulations: int = Field(default=1000, ge=1)
-    random_seed: int = 42
+    random_seed: int = Field(default=42, ge=0)
     api_timeout_seconds: float = Field(default=30.0, gt=0)
     api_page_size: int = Field(default=1000, ge=1, le=1000)
     max_api_pages: int = Field(default=100, ge=1)
+    api_retries: int = Field(default=3, ge=0, le=10)
+    api_retry_backoff_seconds: float = Field(default=1.0, ge=0)
     model_parameters: dict[str, int | float | str | bool] = Field(default_factory=dict)
 
     @model_validator(mode="after")
@@ -56,6 +58,8 @@ class AppConfig(BaseModel):
             "F1_API_TIMEOUT_SECONDS": "api_timeout_seconds",
             "F1_API_PAGE_SIZE": "api_page_size",
             "F1_MAX_API_PAGES": "max_api_pages",
+            "F1_API_RETRIES": "api_retries",
+            "F1_API_RETRY_BACKOFF_SECONDS": "api_retry_backoff_seconds",
         }
         integer_fields = {
             "selected_season",
@@ -64,6 +68,7 @@ class AppConfig(BaseModel):
             "random_seed",
             "api_page_size",
             "max_api_pages",
+            "api_retries",
         }
         for env_name, field_name in env_fields.items():
             value = os.getenv(env_name)

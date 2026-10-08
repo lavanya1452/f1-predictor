@@ -11,8 +11,13 @@ class CanonicalRecord(BaseModel):
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
 
+class Season(CanonicalRecord):
+    season: int = Field(ge=1950)
+    url: str | None = None
+
+
 class Circuit(CanonicalRecord):
-    circuit_id: str
+    circuit_id: str = Field(min_length=1)
     name: str
     locality: str | None = None
     country: str | None = None
@@ -21,7 +26,7 @@ class Circuit(CanonicalRecord):
 
 
 class Driver(CanonicalRecord):
-    driver_id: str
+    driver_id: str = Field(min_length=1)
     permanent_number: str | None = None
     code: str | None = None
     given_name: str
@@ -31,7 +36,7 @@ class Driver(CanonicalRecord):
 
 
 class Constructor(CanonicalRecord):
-    constructor_id: str
+    constructor_id: str = Field(min_length=1)
     name: str
     nationality: str | None = None
 
@@ -39,8 +44,8 @@ class Constructor(CanonicalRecord):
 class Race(CanonicalRecord):
     season: int = Field(ge=1950)
     round: int = Field(ge=1)
-    race_id: str
-    circuit_id: str
+    race_id: str = Field(min_length=1)
+    circuit_id: str = Field(min_length=1)
     name: str
     date: date
     time: str | None = None
@@ -50,9 +55,9 @@ class Race(CanonicalRecord):
 class QualifyingResult(CanonicalRecord):
     season: int = Field(ge=1950)
     round: int = Field(ge=1)
-    race_id: str
-    driver_id: str
-    constructor_id: str
+    race_id: str = Field(min_length=1)
+    driver_id: str = Field(min_length=1)
+    constructor_id: str = Field(min_length=1)
     position: int = Field(ge=1)
     q1: str | None = None
     q2: str | None = None
@@ -62,9 +67,9 @@ class QualifyingResult(CanonicalRecord):
 class RaceResult(CanonicalRecord):
     season: int = Field(ge=1950)
     round: int = Field(ge=1)
-    race_id: str
-    driver_id: str
-    constructor_id: str
+    race_id: str = Field(min_length=1)
+    driver_id: str = Field(min_length=1)
+    constructor_id: str = Field(min_length=1)
     grid: int | None = Field(default=None, ge=0)
     position: int | None = Field(default=None, ge=1)
     position_text: str
@@ -77,7 +82,7 @@ class RaceResult(CanonicalRecord):
 class DriverStanding(CanonicalRecord):
     season: int = Field(ge=1950)
     round: int = Field(ge=1)
-    driver_id: str
+    driver_id: str = Field(min_length=1)
     position: int = Field(ge=1)
     points: float = Field(ge=0)
     wins: int = Field(ge=0)
@@ -86,7 +91,7 @@ class DriverStanding(CanonicalRecord):
 class ConstructorStanding(CanonicalRecord):
     season: int = Field(ge=1950)
     round: int = Field(ge=1)
-    constructor_id: str
+    constructor_id: str = Field(min_length=1)
     position: int = Field(ge=1)
     points: float = Field(ge=0)
     wins: int = Field(ge=0)
